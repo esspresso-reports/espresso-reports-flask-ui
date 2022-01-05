@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h4>Create Report</h4>
+    <div class="shadow rounded p-3 ">
+        <form id="create-report" name="create-report" action="{{ url_for('reports.create_report') }}" method="POST">
+            <div class="form-group">
+                <label for="check-in">Check-In</label>
+                <input type="time" class="form-control" id="check_in" name="check_in" value="{{ checkin }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="next-working-day">Next Working Day</label>
+                <input type="date" class="form-control" id="next_working_day" name="next_working_day"
+                       value="{{ next_working_day }}">
+            </div>
+            <div class="form-group">
+                <label for="accomplished-tasks">Accomplished Tasks</label>
+                <textarea class="form-control" id="accomplished_tasks" name="accomplished_tasks" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="planned-tasks">Planned Tasks</label>
+                <textarea class="form-control" id="planned_tasks" name="planned_tasks" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="general-notes">General Notes</label>
+                <textarea class="form-control" id="general_notes" name="general_notes" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-dark">Submit Report</button>
+
+        </form>
+    </div>
+
+{% endblock content %}

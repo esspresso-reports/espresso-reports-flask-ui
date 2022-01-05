@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Settings</h2>
+    <form class="container shadow-sm p-4" action="{{ url_for('settings.save_settings') }}" method="post">
+        <div>
+            <div class="mb-4 form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="overdue_report" name="notification.overdue_report"
+                        {% if user_settings.get('notification') and user_settings.get('notification').get('overdue_report') %}
+                            {% if user_settings['notification']['overdue_report'] == 'on' %}
+                       checked
+                            {% endif %}
+                        {% endif %}/>
+                <input type='hidden' value='off' name="notification.overdue_report"/>
+                <label for="overdue_report">Send notification when report is overdue</label>
+            </div>
+            <div class="mb-4 form-check form-switch">
+
+                <input class="form-check-input" type="checkbox" id="autofill_accomplished_tasks"
+                       name="report.autofill_accomplished_tasks"
+                        {% if user_settings.get('report') and user_settings.get('report').get('autofill_accomplished_tasks') %}
+                            {% if user_settings['report']['autofill_accomplished_tasks'] == 'on' %}
+                       checked
+                            {% endif %}
+                        {% endif %}/>
+                <input type='hidden' value='off' name='report.autofill_accomplished_tasks'/>
+                <label for="autofill_accomplished_tasks">Auto-fill "accomplished tasks"</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-dark">Save</button>
+    </form>
+
+
+{% endblock content %}

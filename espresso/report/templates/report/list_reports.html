@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% macro build_report(report, user) %}
+    <div class="my-4 p-3 bg-body rounded shadow report">
+        <!-- report header-->
+        <div class="report-header d-flex p-2 border-bottom">
+            <img src="{{ user.avatar }}" class="img-thumbnail rounded-circle"/>
+            <div class="report-meta ms-3">
+                <strong class="d-flex">@{{ user.username }}</strong>
+                <span class="font-weight-normal d-flex">check in: {{ report.check_in }}</span>
+                <span class="font-weight-normal d-flex">next working day: {{ report.next_working_day }}</span>
+            </div>
+        </div>
+
+        <!-- report content-->
+        <div class="row mt-2">
+
+            <!-- acomplished tasks-->
+            <div class="report-col col-lg-4 ps-4 pe-4">
+                <strong>Accomplished Tasks</strong>
+                <ul class="pl-4">
+                    {% for task in report.accomplished_tasks.split('\n') %}
+                        <li>{{ task }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- planned tasks-->
+            <div class="report-col  col-lg-4 ps-4 pe-4">
+                <strong>Planned Tasks</strong>
+                <ul class="ps-4">
+                    {% for task in report.planned_tasks.split('\n') %}
+                        <li>{{ task }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- general notes-->
+            <div class="report-col col-lg-4 ps-4 pe-4">
+                <strong>General Notes</strong>
+                <ul class="ps-4">
+                    {% for task in report.general_notes.split('\n') %}
+                        <li>{{ task }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% block content %}
+
+
+    <h2>Recent Reports</h2>
+    {% if is_report_outstanding %}
+        <div class="alert alert-warning" role="alert">
+            <img src="/static/img/danger.png" width="20px" class="mr-3"/>Your today's report is still missing!
+            Grab
+            a coffee and
+            <a href="{{ url_for('reports.create_report') }}">submit your report</a>.
+        </div>
+    {% endif %}
+
+    {% if reports %}
+        {% for report in reports %}
+            {{ build_report(report, current_user) }}
+        {% endfor %}
+
+        <!--
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                <li class="page-item"><a class="page-link" href="#">7</a></li>
+                <li class="page-item"><a class="page-link" href="#">8</a></li>
+                <li class="page-item"><a class="page-link" href="#">9</a></li>
+                <li class="page-item"><a class="page-link" href="#">10</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        -->
+    {% else %}
+        <div class="alert alert-dark my-3" role="alert">
+            No reports created yet!
+        </div>
+    {% endif %}
+
+
+
+{% endblock content %}
